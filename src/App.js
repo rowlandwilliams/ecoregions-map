@@ -1,8 +1,11 @@
-import "./App.css";
-import { Map } from "./components/Map";
+import { SVG } from "./components/SVG/SVG";
 
 function App() {
-  return <Map />
+  return (
+    <div className="m-2">
+      <SVG />;
+    </div>
+  );
 }
 
 export default App;

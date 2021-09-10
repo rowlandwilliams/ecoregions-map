@@ -28,15 +28,22 @@ export const treeData = [
   },
 ];
 
-export const caliTest = caliData.objects.convert.geometries
-  .filter((x) => x.properties.NA_L1CODE === "7")
-  .map((x) => x.properties);
+const properties = caliData.objects.convert.geometries.map((x) => x.properties);
+console.log(properties);
+
+const seen = new Set();
+
+const filteredCaliData = properties.filter((el) => {
+  const duplicate = seen.has(el.L4_KEY);
+  seen.add(el.L4_KEY);
+  return !duplicate;
+});
 
 export const groups = group(
-  caliTest,
-  (d) => d.L1_KEY,
+  filteredCaliData,
+  // (d) => d.L1_KEY,
   (d) => d.L2_KEY,
   (d) => d.L3_KEY
 );
+
 export const root = hierarchy(groups);
-console.log(root);

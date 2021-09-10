@@ -1,11 +1,11 @@
 import { tree } from "d3-hierarchy";
-import { select } from "d3";
+import { select, linkHorizontal } from "d3";
 import { useEffect } from "react/cjs/react.development";
 import { groupByName, root } from "./data/treeData";
 
 export const Tree = () => {
   useEffect(() => {
-    var treemap = tree().size([400, 500]);
+    var treemap = tree().size([window.innerWidth, window.innerHeight]);
 
     const final = treemap(root);
     const nodesGroup = select("#nodes");
@@ -17,30 +17,49 @@ export const Tree = () => {
       .join("circle")
       .classed("node", true)
       .attr("cx", function (d) {
-        return d.x;
-      })
-      .attr("cy", function (d) {
         return d.y;
       })
-      .attr("r", 4)
+      .attr("cy", function (d) {
+        return d.x;
+      })
+      .attr("r", 2)
       .on("mouseover", (event, d) => console.log(d.data));
+
     linksGroup
       .selectAll("line")
       .data(final.links())
-      .join("line")
-      .attr("x1", function (d) {
-        return d.source.x;
+      .join("path")
+      .attr(
+        "d",
+        linkHorizontal()
+          .x((d) => d.y)
+          .y((d) => d.x)
+      )
+      .attr("stroke", "grey")
+      .attr("fill", "none");
+
+    nodesGroup
+      .selectAll("text")
+      .data(final.descendants())
+      .join("text")
+      .attr("x", function (d) {
+        return d.children ? -13 : d.y + 5;
       })
-      .attr("y1", function (d) {
-        return d.source.y;
+      .attr("dy", function (d) {
+        return d.children ? ".35em" : d.x + 2;
       })
-      .attr("x2", function (d) {
-        return d.target.x;
-      })
-      .attr("y2", function (d) {
-        return d.target.y;
-      })
-      .attr("stroke", "green");
+      .text((d) => (d.children ? d.data[0] : d.data.L4_KEY))
+      .attr("font-size", "0.5rem");
+    // .each((d) => (d.children ? console.log(d.data) : console.log(d)));
+
+    // .attr("x", function (d) {
+    //   return d.children ? -13 : 13;
+    // })
+    // .style("text-anchor", function (d) {
+    //   return d.children ? "end" : "start";
+    // })
+    // .text("suh")
+    // .style("fill", "red");
   });
   return (
     <>

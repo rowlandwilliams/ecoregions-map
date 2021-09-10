@@ -6,7 +6,7 @@ const a4Height = 2480;
 
 export const SVG = () => {
   return (
-    <svg width={a4Width} height={a4Height} id="map-svg">
+    <svg width={window.innerWidth} height={window.innerHeight * 2} id="map-svg">
       {/* <Map /> */}
       <Tree />
     </svg>

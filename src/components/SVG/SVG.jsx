@@ -1,36 +1,14 @@
-import { useEffect, useRef, useState } from "react";
-import { Tree } from "../Tree/Tree";
+import { Map } from "./Map/Map";
 
 export const SVG = () => {
-  const parentRef = useRef(null);
-
-  const [svgWidth, setSvgWidth] = useState(0);
-  const [svgHeight, setSvgHeight] = useState(0);
-  const [shortestDimension, setShortestDimension] = useState(0);
-
-  const setDimensions = (current) => {
-    setSvgWidth(current.offsetWidth);
-    setSvgHeight(current.offsetHeight);
-    current.offsetWidth > current.offsetHeight
-      ? setShortestDimension(svgHeight)
-      : setShortestDimension(svgWidth);
-  };
-
-  useEffect(() => {
-    const { current } = parentRef;
-    if (current) {
-      setDimensions(current);
-    }
-  });
-
   return (
-    <div className="w-full h-screen" ref={parentRef}>
-      <svg viewBox={"0, 0, " + svgWidth + ", " + svgHeight} id="map-svg">
-        <Tree
-          shortestDimension={shortestDimension}
-          svgWidth={svgWidth}
-          svgHeight={svgHeight}
-        />
+    <div>
+      <svg
+        viewBox={"0, 0, " + window.innerWidth + "," + window.innerHeight}
+        id="map-svg"
+      >
+        <rect width="100%" height="100%" fill="#fffbdb"></rect>
+        <Map />
       </svg>
     </div>
   );

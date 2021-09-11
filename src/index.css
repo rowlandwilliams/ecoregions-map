@@ -1,3 +1,22 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  @font-face {
+    font-family: "default";
+    src: url(./fonts/KaiseiTokumin-Regular.ttf);
+  }
+  @font-face {
+    font-family: "default-medium";
+    src: url(./fonts/KaiseiTokumin-Medium.ttf);
+  }
+  @font-face {
+    font-family: "default-bold";
+    src: url(./fonts/KaiseiTokumin-Bold.ttf);
+  }
+}
+
+body {
+  background-color: #fffbdb;
+}

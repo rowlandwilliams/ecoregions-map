@@ -1,0 +1,21 @@
+{
+  "files": {
+    "main.css": "/ecoregions-map/static/css/main.9c94bd8d.chunk.css",
+    "main.js": "/ecoregions-map/static/js/main.6ef209e7.chunk.js",
+    "main.js.map": "/ecoregions-map/static/js/main.6ef209e7.chunk.js.map",
+    "runtime-main.js": "/ecoregions-map/static/js/runtime-main.1bf28f49.js",
+    "runtime-main.js.map": "/ecoregions-map/static/js/runtime-main.1bf28f49.js.map",
+    "static/js/2.6d859a86.chunk.js": "/ecoregions-map/static/js/2.6d859a86.chunk.js",
+    "static/js/2.6d859a86.chunk.js.map": "/ecoregions-map/static/js/2.6d859a86.chunk.js.map",
+    "index.html": "/ecoregions-map/index.html",
+    "static/css/main.9c94bd8d.chunk.css.map": "/ecoregions-map/static/css/main.9c94bd8d.chunk.css.map",
+    "static/js/2.6d859a86.chunk.js.LICENSE.txt": "/ecoregions-map/static/js/2.6d859a86.chunk.js.LICENSE.txt",
+    "static/media/index.css": "/ecoregions-map/static/media/KaiseiTokumin-Regular.79fe9cc8.ttf"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.1bf28f49.js",
+    "static/js/2.6d859a86.chunk.js",
+    "static/css/main.9c94bd8d.chunk.css",
+    "static/js/main.6ef209e7.chunk.js"
+  ]
+}

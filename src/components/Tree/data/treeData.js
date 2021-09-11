@@ -11,10 +11,6 @@ export const filteredCaliData = properties.filter((el) => {
   return !duplicate;
 });
 
-export const groups = group(
-  filteredCaliData,
-  // (d) => d.L1_KEY,
-  (d) => d.L3_KEY
-);
+export const groups = group(filteredCaliData, (d) => d.US_L3CODE);
 
 export const root = hierarchy(groups);

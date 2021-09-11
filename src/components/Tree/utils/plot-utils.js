@@ -1,9 +1,10 @@
 import { select, tree, linkRadial } from "d3";
-import { l4Colors } from "../../Map/utils/colors";
 import { root } from "../data/treeData";
+import { getNodeColorFromDepth, transformTreeText } from "./tree-helpers";
 
 const width = window.innerWidth / 2;
 const radius = width / 1.8;
+const linkColor = "grey";
 
 const getTreeSelections = () => {
   return {
@@ -32,13 +33,11 @@ const plotTreeNodes = (nodesGroup) => {
         translate(${d.y},0)
       `
     )
-    .attr("fill", (d) => {
-      const filt = l4Colors.filter(
-        (colorObject) => colorObject.code === d.data.US_L4CODE
-      );
-      return filt.length > 0 ? filt[0].color : "black";
-    })
-    .attr("r", 3);
+    .attr("opacity", (d) => d.depth === 0 && 0)
+    .attr("fill", (d) => getNodeColorFromDepth(d))
+    .attr("r", (d) => (d.depth > 1 ? 3 : 6))
+    .attr("stroke", linkColor)
+    .attr("stroke-width", (d) => (d.depth > 1 ? 0 : 2));
 };
 
 const plotTreeLinks = (linksGroup, treeData) => {
@@ -52,16 +51,9 @@ const plotTreeLinks = (linksGroup, treeData) => {
         .angle((d) => d.x)
         .radius((d) => d.y)
     )
-    .attr("stroke", "grey")
-    .attr("opacity", 0.5)
+    .attr("stroke", linkColor)
+    .attr("opacity", 0.8)
     .attr("fill", "none");
-};
-
-const transformTreeText = (d) => {
-  const rotate1 = "rotate(" + ((d.x * 180) / Math.PI - 90) + ")";
-  const translate = "translate(" + d.y + ",0)";
-  const rotate2 = "rotate(" + (d.x >= Math.PI ? 180 : 0) + ")";
-  return rotate1 + " " + translate + " " + rotate2;
 };
 
 const plotTreeText = (textGroup) => {

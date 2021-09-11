@@ -1,71 +1,57 @@
 export const l3Colors = [
   {
     code: "1",
-    colorString: "blue",
-    luminosityString: "bright",
+    color: "#54c9c9",
   },
   {
     code: "9",
-    colorString: "orange",
-    luminosityString: "bright",
+    color: "#ed7a07",
   },
   {
     code: "6",
-    colorString: "yellow",
-    luminosityString: "dark",
+    color: "#d3ab0c",
   },
   {
     code: "7",
-    colorString: "orange",
-    luminosityString: "bright",
+    color: "#f4ad50",
   },
   {
     code: "8",
-    colorString: "green",
-    luminosityString: "light",
+    color: "#9cfcd2",
   },
   {
     code: "85",
-    colorString: "orange",
-    luminosity: "bright",
+    color: "#f9a804",
   },
   {
     code: "5",
-    colorString: "green",
-    luminosityString: "bright",
+    color: "#1d8702",
   },
   {
     code: "4",
-    colorString: "blue",
-    luminosityString: "light",
+    color: "#6d8ee0",
   },
   {
     code: "13",
-    colorString: "pink",
-    luminosity: "light",
+    color: "#e29ace",
   },
   {
     code: "78",
-    colorString: "green",
-    luminosityString: "light",
+    color: "#edfc97",
   },
   {
     code: "80",
-    colorString: "yellow",
-    luminosityString: "light",
+    color: "#f4df97",
   },
   {
     code: "14",
-    colorString: "red",
-    luminosityString: "light",
+    color: "#f48270",
   },
   {
     code: "81",
-    colorString: "red",
-    luminosityString: "light",
+    color: "#ffcbbc",
   },
 ];
-
 export const l4Colors = [
   {
     code: "1a",

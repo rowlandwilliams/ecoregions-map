@@ -4,7 +4,7 @@ import { Tree } from "../Tree/Tree";
 export const SVG = () => {
   return (
     <svg width={window.innerWidth} height={window.innerHeight} id="map-svg">
-      <rect width="100%" height="100%" fill="#fff6c7"></rect>
+      <rect width="100%" height="100%" fill="#fff6c7" fillOpacity="0.5"></rect>
 
       <Tree />
     </svg>

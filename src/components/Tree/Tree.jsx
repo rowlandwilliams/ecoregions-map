@@ -1,9 +1,11 @@
 import { useEffect } from "react/cjs/react.development";
 import { drawTree } from "./utils/plot-utils";
 
-export const Tree = () => {
+export const Tree = (props) => {
+  const { shortestDimension } = props;
+
   useEffect(() => {
-    drawTree();
+    drawTree(shortestDimension / 2.2);
   });
   return (
     <g

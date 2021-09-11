@@ -2,8 +2,6 @@ import { select, tree, linkRadial } from "d3";
 import { root } from "../data/treeData";
 import { getNodeColorFromDepth, transformTreeText } from "./tree-helpers";
 
-const width = window.innerWidth / 2;
-const radius = width / 1.8;
 const linkColor = "grey";
 
 const getTreeSelections = () => {
@@ -14,7 +12,7 @@ const getTreeSelections = () => {
   };
 };
 
-const getTreeData = () => {
+const getTreeData = (radius) => {
   var treemap = tree()
     .size([2 * Math.PI, radius])
     .separation((a, b) => (a.parent === b.parent ? 1 : 2) / a.depth);
@@ -41,7 +39,7 @@ const plotTreeNodes = (nodesGroup) => {
 };
 
 const plotTreeLinks = (linksGroup, treeData) => {
-  return linksGroup
+  linksGroup
     .selectAll("line")
     .data(treeData.links())
     .join("path")
@@ -66,13 +64,13 @@ const plotTreeText = (textGroup) => {
     .attr("x", (d) => (d.x < Math.PI && !d.children ? 6 : -6))
     .attr("text-anchor", (d) => (d.x < Math.PI ? "start" : "end"))
     .text((d) => d.data.US_L4CODE)
-    .attr("font-size", "0.5rem");
+    .attr("font-size", "0.75rem");
 };
 
-export const drawTree = () => {
+export const drawTree = (radius) => {
   const { nodesGroup, linksGroup, textGroup } = getTreeSelections();
 
-  const treeData = getTreeData();
+  const treeData = getTreeData(radius);
 
   plotTreeNodes(nodesGroup);
 

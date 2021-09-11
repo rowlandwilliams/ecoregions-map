@@ -1,7 +1,9 @@
 import { caliData } from "../../Map/data/caliData";
 import { group, hierarchy } from "d3";
 
-const properties = caliData.objects.convert.geometries.map((x) => x.properties);
+export const properties = caliData.objects.convert.geometries.map(
+  (x) => x.properties
+);
 
 const seen = new Set();
 

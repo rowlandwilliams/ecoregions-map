@@ -2,54 +2,67 @@ export const l3Colors = [
   {
     code: "1",
     color: "#54c9c9",
+    key: "Coast Range",
   },
   {
     code: "9",
     color: "#ed7a07",
+    key: "Eastern Cascades Slopes and Foothills",
   },
   {
     code: "6",
     color: "#d3ab0c",
+    key: "Central California Foothills and Coastal Mountains",
   },
   {
     code: "7",
     color: "#f4ad50",
+    key: "Central California Valley",
   },
   {
     code: "8",
     color: "#9cfcd2",
+    key: "Southern California Mountains",
   },
   {
     code: "85",
     color: "#f9a804",
+    key: "Southern California/Northern Baja Coast",
   },
   {
     code: "5",
     color: "#1d8702",
+    key: "Sierra Nevada",
   },
   {
     code: "4",
     color: "#6d8ee0",
+    key: "Cascades",
   },
   {
     code: "13",
     color: "#e29ace",
+    key: "Central Basin and Range",
   },
   {
     code: "78",
     color: "#edfc97",
+    key: "Klamath Mountains/California High North Coast Range",
   },
   {
     code: "80",
     color: "#f4df97",
+    key: "Northern Basin and Range",
   },
   {
     code: "14",
     color: "#f48270",
+    key: "Mojave Basin and Range",
   },
   {
     code: "81",
     color: "#ffcbbc",
+    key: "Sonoran Basin and Range",
   },
 ];
 export const l4Colors = [

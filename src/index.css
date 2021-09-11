@@ -4,7 +4,7 @@
 
 @layer base {
   @font-face {
-    font-family: "default";
+    font-family: "default-regular";
     src: url(./fonts/KaiseiTokumin-Regular.ttf);
   }
   @font-face {

@@ -6,7 +6,7 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        default: ["default"],
+        "default-regular": ["default-regular"],
         "default-medium": ["default-medium"],
         "default-bold": ["default-bold"],
       },

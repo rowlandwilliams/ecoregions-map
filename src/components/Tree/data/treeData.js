@@ -1,5 +1,5 @@
 import { caliData } from "../../Map/data/caliData";
-import { group, hierarchy, rollup, nest } from "d3";
+import { group, hierarchy } from "d3";
 
 const properties = caliData.objects.convert.geometries.map((x) => x.properties);
 

@@ -1,12 +1,12 @@
 import { Map } from "../Map/Map";
 import { Tree } from "../Tree/Tree";
-
-const a4Width = 3508;
-const a4Height = 2480;
+// 7016 x 4961 px
 
 export const SVG = () => {
   return (
-    <svg width={window.innerWidth} height={window.innerHeight * 2} id="map-svg">
+    <svg width={window.innerWidth} height={window.innerHeight} id="map-svg">
+      <rect width="100%" height="100%" fill="#fff6c7"></rect>
+
       {/* <Map /> */}
       <Tree />
     </svg>

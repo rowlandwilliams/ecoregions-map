@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { drawMap } from "./utils/plot-utils";
 
+const headerMargin = 200;
+
 export const Map = () => {
   const parentRef = useRef(null);
   const [width, setWidth] = useState(0);
@@ -24,11 +26,12 @@ export const Map = () => {
 
   return (
     <>
-      <rect width="100%" height="100%" fill="white" stroke="black"></rect>
-      <path id="map-outline-blur"></path>
-      <g id="l4-group"></g>
-      <g id="l3-group"></g>
-      <path id="map-outline-solid"></path>
+      <g transform={"translate(0, " + headerMargin + ")"}>
+        <path id="map-outline-blur"></path>
+        <g id="l4-group"></g>
+        <g id="l3-group"></g>
+        <path id="map-outline-solid"></path>
+      </g>
     </>
   );
 };

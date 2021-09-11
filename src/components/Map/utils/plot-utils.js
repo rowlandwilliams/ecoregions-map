@@ -13,7 +13,7 @@ const getMapSelections = () => {
   };
 };
 
-const projection = geoMercator().center([-122, 41.5]).scale(10500);
+const projection = geoMercator().center([-118, 41.5]).scale(4000);
 
 const polygons = feature(caliData, caliData.objects.convert);
 
@@ -47,7 +47,7 @@ const plotLevel4Polygons = (l4Group) => {
         l4Colors.filter((color) => color.code === d.properties[l4Column])[0]
           .color
     )
-    .attr("fill-opacity", 0.9)
+    .attr("fill-opacity", 0.7)
     .attr("stroke", "black")
     .attr("stroke-opacity", 0.6)
     .attr("d", pathGenerator);

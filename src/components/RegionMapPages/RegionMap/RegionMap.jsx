@@ -1,14 +1,13 @@
 import { geoMercator, geoPath } from "d3";
 import { useEffect } from "react";
 import { feature, merge } from "topojson-client";
-import { caliData } from "../../SVG/Map/data/caliData";
+import { caliData } from "../../StateMapPage/StateMap/data/caliData";
 import { getL3SvgSelections } from "./utils/plot-utils";
-import { plotLevel4Polygons } from "../../SVG/Map/utils/plot-utils";
+import { plotLevel4Polygons } from "../../StateMapPage/StateMap/utils/plot-utils";
 
 const polygons = feature(caliData, caliData.objects.convert);
-// const l3SvgDim = 110;
 
-export const L3Svg = (props) => {
+export const RegionMap = (props) => {
   const { l3RegionCode, l3SvgDim, svgPadding } = props;
 
   const mergedL3Region = merge(
@@ -62,6 +61,13 @@ export const L3Svg = (props) => {
   return (
     <svg width={l3SvgDim} height={l3SvgDim} className="mr-8">
       {/* <rect width="100%" height="100%" fill="none" stroke="black"></rect> */}
+      <path
+        id={
+          l3SvgDim > 150
+            ? `outline-blur-${l3RegionCode}`
+            : `outline-blur-${l3RegionCode}-key`
+        }
+      ></path>
       <g
         id={
           l3SvgDim > 150
@@ -76,13 +82,6 @@ export const L3Svg = (props) => {
             : `l3-group-${l3RegionCode}-key`
         }
       ></g>
-      <path
-        id={
-          l3SvgDim > 150
-            ? `outline-blur-${l3RegionCode}`
-            : `outline-blur-${l3RegionCode}-key`
-        }
-      ></path>
     </svg>
   );
 };

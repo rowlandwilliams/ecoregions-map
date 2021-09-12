@@ -1,4 +1,4 @@
-import { l3Regions } from "../SVG/Map/utils/colors";
+import { l3Regions } from "../StateMapPage/StateMap/utils/colors";
 import { MapKeyItem } from "./MapKeyItem/MapKeyItem";
 
 export const MapKey = () => {

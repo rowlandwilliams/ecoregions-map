@@ -1,4 +1,4 @@
-import { L3Svg } from "../L3Svg/L3Svg";
+import { L3Svg } from "../../../RegionMapPages/RegionMap/RegionMap";
 
 export const MapKeyItem = (props) => {
   const { l3Region } = props;

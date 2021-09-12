@@ -1,31 +1,59 @@
 import { select, geoMercator, geoPath } from "d3";
 import { feature, merge, mesh } from "topojson-client";
 import { caliData } from "../data/caliData";
+import { mexicoOutline } from "../data/mexicoOutline";
+import { statesData } from "../data/statesData";
 import { l4Colors } from "./colors";
 import { l3Codes, l4Column } from "./utils";
 
 const getMapSelections = () => {
   return {
+    usGroup: select("#us-group"),
+    mexGroup: select("#mexico-group"),
     l4Group: select("#l4-group"),
     l3Group: select("#l3-group"),
-    mapOutlineSolid: select("#map-outline-solid"),
-    mapOutlineBlur: select("#map-outline-blur"),
+    stateMapOutlineSolid: select("#state-outline-solid"),
+    stateMapOutlineBlur: select("#map-outline-blur"),
   };
 };
 
-const projection = geoMercator().center([-119.5, 40.3]).scale(5000);
+// define projections, state polygons and path generator
+const statePolygons = feature(caliData, caliData.objects.convert);
 
-const polygons = feature(caliData, caliData.objects.convert);
+const projection = geoMercator().fitExtent(
+  [
+    [50, -200],
+    [window.innerWidth * 0.8, window.innerHeight * 2],
+  ],
+  statePolygons
+);
+const pathGenerator = geoPath().projection(projection);
 
-const mainMapGenerator = geoPath().projection(projection);
+const plotBaseMaps = (statesGroup, mexGroup) => {
+  statesGroup
+    .selectAll("path")
+    .data(statesData.features)
+    .join("path")
+    .attr("fill", "white")
+    .attr("fill-opacity", 0.5)
+    .attr("stroke", "black")
+    .attr("stroke-width", 0.5)
+    .attr("stroke-opacity", 0.6)
+    .attr("d", pathGenerator);
+
+  mexGroup
+    .join("path")
+    .attr("d", pathGenerator(mexicoOutline))
+    .attr("fill", "transparent")
+    .style("stroke", "#333");
+};
 
 const plotSolidMapOutline = (mapOutlineSolid, pathGenerator) => {
   mapOutlineSolid
     .join("path")
     .attr("stroke", "black")
-    .attr("stroke-opacity", 0.1)
     .attr("fill", "none")
-    .attr("stroke-width", 4)
+    .attr("stroke-width", 2)
     .attr(
       "d",
       pathGenerator(
@@ -96,11 +124,18 @@ const plotLevel3PolygonOutlines = (l3Group, pathGenerator) => {
 };
 
 export const drawMap = () => {
-  const { mapOutlineBlur, l4Group, l3Group, mapOutlineSolid } =
-    getMapSelections();
+  const {
+    usGroup,
+    mexGroup,
+    stateMapOutlineBlur,
+    l4Group,
+    l3Group,
+    stateMapOutlineSolid,
+  } = getMapSelections();
 
-  plotBlurredMapOutline(mapOutlineBlur, mainMapGenerator);
-  plotLevel4Polygons(l4Group, polygons.features, mainMapGenerator);
-  plotLevel3PolygonOutlines(l3Group, mainMapGenerator);
-  plotSolidMapOutline(mapOutlineSolid, mainMapGenerator);
+  plotBaseMaps(usGroup, mexGroup);
+  plotBlurredMapOutline(stateMapOutlineBlur, pathGenerator);
+  plotLevel4Polygons(l4Group, statePolygons.features, pathGenerator);
+  plotLevel3PolygonOutlines(l3Group, pathGenerator);
+  plotSolidMapOutline(stateMapOutlineSolid, pathGenerator);
 };

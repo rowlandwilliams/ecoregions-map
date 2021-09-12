@@ -7,12 +7,13 @@ export const StateMap = () => {
   });
 
   return (
-    <svg width="100%" height={window.innerHeight} id="map-svg">
+    <svg width="100%" height={window.innerHeight * 2} id="map-svg">
       <g>
-        <path id="map-outline-blur"></path>
+        <g id="us-group"></g>
+        <path id="mexico-group"></path>
         <g id="l4-group"></g>
         <g id="l3-group"></g>
-        <path id="map-outline-solid"></path>
+        <path id="state-outline-solid"></path>
       </g>
     </svg>
   );

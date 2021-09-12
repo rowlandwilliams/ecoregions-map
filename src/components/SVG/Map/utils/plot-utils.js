@@ -17,9 +17,9 @@ const projection = geoMercator().center([-119.5, 40.3]).scale(5000);
 
 const polygons = feature(caliData, caliData.objects.convert);
 
-const pathGenerator = geoPath().projection(projection);
+const mainMapGenerator = geoPath().projection(projection);
 
-const plotSolidMapOutline = (mapOutlineSolid) => {
+const plotSolidMapOutline = (mapOutlineSolid, pathGenerator) => {
   mapOutlineSolid
     .join("path")
     .attr("stroke", "black")
@@ -36,10 +36,10 @@ const plotSolidMapOutline = (mapOutlineSolid) => {
     );
 };
 
-const plotLevel4Polygons = (l4Group) => {
+export const plotLevel4Polygons = (l4Group, polygons, pathGenerator) => {
   l4Group
     .selectAll("path")
-    .data(polygons.features)
+    .data(polygons)
     .join("path")
     .attr(
       "fill",
@@ -54,7 +54,7 @@ const plotLevel4Polygons = (l4Group) => {
     .attr("d", pathGenerator);
 };
 
-const plotBlurredMapOutline = (mapOutlineBlur) => {
+const plotBlurredMapOutline = (mapOutlineBlur, pathGenerator) => {
   mapOutlineBlur
     .join("path")
     .attr("stroke", "grey")
@@ -71,7 +71,7 @@ const plotBlurredMapOutline = (mapOutlineBlur) => {
     );
 };
 
-const plotLevel3PolygonOutlines = (l3Group) => {
+const plotLevel3PolygonOutlines = (l3Group, pathGenerator) => {
   l3Group
     .selectAll("g")
     .data(l3Codes)
@@ -99,8 +99,8 @@ export const drawMap = () => {
   const { mapOutlineBlur, l4Group, l3Group, mapOutlineSolid } =
     getMapSelections();
 
-  plotBlurredMapOutline(mapOutlineBlur);
-  plotLevel4Polygons(l4Group);
-  plotLevel3PolygonOutlines(l3Group);
-  plotSolidMapOutline(mapOutlineSolid);
+  plotBlurredMapOutline(mapOutlineBlur, mainMapGenerator);
+  plotLevel4Polygons(l4Group, polygons.features, mainMapGenerator);
+  plotLevel3PolygonOutlines(l3Group, mainMapGenerator);
+  plotSolidMapOutline(mapOutlineSolid, mainMapGenerator);
 };

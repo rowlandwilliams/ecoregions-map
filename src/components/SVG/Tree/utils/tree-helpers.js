@@ -1,8 +1,8 @@
-import { l3Colors, l4Colors } from "../../Map/utils/colors";
+import {  l3Regions, l4Colors } from "../../Map/utils/colors";
 
 export const getNodeColorFromDepth = (d) => {
   if (d.depth === 1) {
-    const filt = l3Colors.filter(
+    const filt = l3Regions.filter(
       (colorObject) => colorObject.code === d.data[0]
     );
     return filt[0].color;

@@ -1,4 +1,4 @@
-export const l3Colors = [
+export const l3Regions = [
   {
     code: "1",
     color: "#54c9c9",

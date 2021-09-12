@@ -1,4 +1,5 @@
-import { l3Colors } from "../SVG/Map/utils/colors";
+import { l3Regions } from "../SVG/Map/utils/colors";
+import { MapKeyItem } from "./MapKeyItem/MapKeyItem";
 
 export const MapKey = () => {
   return (
@@ -6,15 +7,9 @@ export const MapKey = () => {
       <div className="text-5xl font-default-bold text-gray-800">
         The Eco-regions of California
       </div>
-      <div className="p-8">
-        {l3Colors.map((l3Region) => (
-          <div className="flex items-center my-4">
-            <div
-              className="w-16 h-12 border border-1 border-gray-100 mr-4 rounded-full"
-              style={{ backgroundColor: l3Region.color }}
-            ></div>
-            <div key={l3Region.key}>{l3Region.key}</div>
-          </div>
+      <div className="flex flex-wrap py-8">
+        {l3Regions.map((l3Region) => (
+          <MapKeyItem l3Region={l3Region} />
         ))}
       </div>
     </div>

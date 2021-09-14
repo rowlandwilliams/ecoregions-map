@@ -17,7 +17,7 @@ export const StateMap = () => {
         <g id="l4-group"></g>
         <g id="l3-group"></g>
         <path id="us-outline"></path>
-
+        <g id="cali-rivers"></g>
         <path id="state-outline-solid"></path>
       </g>
     </svg>

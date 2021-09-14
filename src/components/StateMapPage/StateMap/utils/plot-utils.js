@@ -7,9 +7,11 @@ import { usMexico } from "../data/usMexico";
 import { usStatesInnerOutlines } from "../data/usStatesInnerOutlines";
 import { l4Colors } from "./colors";
 import { l3Codes, l4Column } from "./utils";
+import { caliRivers } from "../data/caliRivers";
 
 const mexicoGreen = "#e7ffe3";
 const outlineGrey = "#808080";
+const riverBlue = "#11cff5";
 
 const getMapSelections = () => {
   return {
@@ -19,6 +21,7 @@ const getMapSelections = () => {
     usOutlinePath: select("#us-outline"),
     usStatesPath: select("#us-states"),
     mexGroup: select("#mexico-group"),
+    caliRiversGroup: select("#cali-rivers"),
     l4Group: select("#l4-group"),
     l3Group: select("#l3-group"),
     stateMapOutlineSolid: select("#state-outline-solid"),
@@ -28,7 +31,7 @@ const getMapSelections = () => {
 
 // define projections, state polygons and path generator
 const statePolygons = feature(caliData, caliData.objects.convert);
-
+const riverPolygons = feature(caliRivers, caliRivers.objects.MajorRivers);
 const projection = geoMercator().fitExtent(
   [
     [50, -100],
@@ -44,7 +47,8 @@ const plotBaseMaps = (
   continentOutline,
   usStatesPath,
   usOutlinePath,
-  mexGroup
+  mexGroup,
+  caliRiversGroup
 ) => {
   continentOutlineBlur
     .join("path")
@@ -97,6 +101,14 @@ const plotBaseMaps = (
     .attr("stroke", outlineGrey)
     .attr("stroke-width", 1.5)
     .attr("stroke-opacity", 0.6);
+
+  caliRiversGroup
+    .selectAll("path")
+    .data(riverPolygons.features)
+    .join("path")
+    .attr("stroke", riverBlue)
+    .attr("stroke-width", 1)
+    .attr("d", pathGenerator);
 };
 
 const plotSolidMapOutline = (mapOutlineSolid, pathGenerator) => {
@@ -186,6 +198,7 @@ export const drawMap = () => {
     l4Group,
     l3Group,
     stateMapOutlineSolid,
+    caliRiversGroup,
   } = getMapSelections();
 
   plotBaseMaps(
@@ -194,7 +207,8 @@ export const drawMap = () => {
     continentOutline,
     usStatesPath,
     usOutlinePath,
-    mexGroup
+    mexGroup,
+    caliRiversGroup
   );
   plotBlurredMapOutline(stateMapOutlineBlur, pathGenerator);
   plotLevel4Polygons(l4Group, statePolygons.features, pathGenerator);

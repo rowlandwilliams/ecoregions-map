@@ -18,6 +18,7 @@ import {
 const mexicoGreen = "#e7ffe3";
 const outlineGrey = "#808080";
 const riverBlue = "#11cff5";
+const stateCream = "#FFFBEB";
 
 const getMapSelections = () => {
   return {
@@ -46,8 +47,8 @@ const padding = 50;
 
 const projection = geoMercator().fitExtent(
   [
-    [padding / 2, padding],
-    [homeMapDims[0] * 0.8 - padding / 2, homeMapDims[1] - padding],
+    [padding / 2, 0],
+    [homeMapDims[0] * 0.9 - padding / 2, homeMapDims[1] - padding],
   ],
   statePolygons
 );
@@ -67,7 +68,7 @@ const plotBaseMaps = (
   continentOutlineBlur
     .join("path")
     .attr("d", pathGenerator(usMexico))
-    .attr("fill", "#FFFBEB")
+    .attr("fill", stateCream)
     .attr("stroke", "black")
     .attr("stroke-width", 20)
     .attr("stroke-opacity", 0.1);
@@ -160,18 +161,35 @@ export const plotLevel4Polygons = (l4Group, polygons, pathGenerator) => {
         l4Colors.filter((color) => color.code === d.properties[l4Column])[0]
           .color
     )
-    .attr("fill-opacity", 0.9)
+    .style("pointer-events", "all")
     .attr("stroke", "black")
     .attr("stroke-width", 0.5)
     .attr("stroke-opacity", 0.6)
     .attr("d", pathGenerator)
     .each((d) => {
-      console.log(polygonArea(d));
       l4PathCoords[d.properties.OBJECTID] = pathGenerator.centroid(d);
     })
+    .on("mouseover", (event) => {
+      event.currentTarget.setAttribute("fill", "url(#hash)");
+      event.currentTarget.setAttribute("stroke-opacity", 1);
+    })
+    .on("mouseleave", (event, d) => {
+      event.currentTarget.setAttribute(
+        "fill",
+        l4Colors.filter((color) => color.code === d.properties[l4Column])[0]
+          .color
+      );
+      event.currentTarget.setAttribute("stroke-opacity", 0.6);
+    })
     .on("mousemove", (event, d) => {
-      if (d.properties.US_L4CODE === "14f") console.log(d.properties);
-      store.dispatch(setTooltipData([event.pageX, event.pageY], d.properties));
+      store.dispatch(
+        setTooltipData(
+          [event.pageX, event.pageY],
+          d.properties,
+          l4Colors.filter((color) => color.code === d.properties[l4Column])[0]
+            .color
+        )
+      );
     });
 };
 
@@ -272,6 +290,7 @@ export const drawMap = () => {
   );
   plotBlurredMapOutline(stateMapOutlineBlur, pathGenerator);
   plotLevel4Polygons(l4Group, statePolygons.features, pathGenerator);
+
   plotLevel4PolygonsText(l4GroupText, statePolygons.features);
   plotLevel3PolygonOutlines(l3Group, pathGenerator);
   plotSolidMapOutline(stateMapOutlineSolid, pathGenerator);

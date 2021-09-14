@@ -1,4 +1,5 @@
 import classNames from "classnames";
+import { area } from "d3-shape";
 import { useSelector } from "react-redux";
 import { caliData } from "../StateMap/data/caliData";
 
@@ -9,6 +10,10 @@ const californiaArea = 409597040191.3525;
 // caliData.objects.convert.geometries
 //   .map((x) => x.properties.Shape_Area)
 //   .reduce((a, b) => a + b, 0);
+
+const areas = caliData.objects.convert.geometries.map(
+  (x) => x.properties.Shape_Area
+);
 
 export const StateMapTooltip = () => {
   const { stateMapIsHovered } = useSelector((state) => state);

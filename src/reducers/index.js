@@ -1,5 +1,5 @@
 import { combineReducers } from "redux";
-import { mouseCoordsReducer, tooltipDataReducer } from "./mouseCoordsReducer";
+import {  tooltipDataReducer } from "./tooltipDataReducer";
 import { stateMapIsHoveredReducer } from "./stateMapIsHoveredReducer";
 
 export const allReducers = combineReducers({

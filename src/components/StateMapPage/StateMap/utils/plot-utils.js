@@ -8,6 +8,8 @@ import { usStatesInnerOutlines } from "../data/usStatesInnerOutlines";
 import { l4Colors } from "./colors";
 import { l3Codes, l4Column } from "./utils";
 import { caliRivers } from "../data/caliRivers";
+import { store } from "../../../../index";
+import { setMouseCoords, setStateMapIsHovered } from "../../../../actions";
 
 const mexicoGreen = "#e7ffe3";
 const outlineGrey = "#808080";
@@ -130,6 +132,14 @@ const plotSolidMapOutline = (mapOutlineSolid, pathGenerator) => {
     );
 };
 
+const setStateMapMouseInteraction = () => {
+  const stateMapGroup = select("#state-map-group");
+
+  stateMapGroup
+    .on("mouseenter", () => store.dispatch(setStateMapIsHovered(true)))
+    .on("mouseleave", () => store.dispatch(setStateMapIsHovered(false)));
+};
+
 export const plotLevel4Polygons = (l4Group, polygons, pathGenerator) => {
   l4Group
     .selectAll("path")
@@ -149,7 +159,9 @@ export const plotLevel4Polygons = (l4Group, polygons, pathGenerator) => {
     .each((d) => {
       l4PathCoords[d.properties.OBJECTID] = pathGenerator.centroid(d);
     })
-    // .on("mouseover", (event, d) => console.log(d.properties));
+    .on("mousemove", (event, d) => {
+      store.dispatch(setMouseCoords([event.pageX, event.pageY]));
+    });
 };
 
 const plotLevel4PolygonsText = (l4GroupText, polygons) => {
@@ -168,7 +180,6 @@ const plotLevel4PolygonsText = (l4GroupText, polygons) => {
   //   )
   //   .attr("width", 20)
   //   .attr("height", 20);
-
   // textGroups
   //   .append("text")
   //   .text((d) => d.properties.US_L4CODE)
@@ -247,4 +258,5 @@ export const drawMap = () => {
   plotLevel4PolygonsText(l4GroupText, statePolygons.features);
   plotLevel3PolygonOutlines(l3Group, pathGenerator);
   plotSolidMapOutline(stateMapOutlineSolid, pathGenerator);
+  setStateMapMouseInteraction();
 };

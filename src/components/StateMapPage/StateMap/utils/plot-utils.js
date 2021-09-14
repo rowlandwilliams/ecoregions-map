@@ -1,4 +1,4 @@
-import { select, geoMercator, geoPath } from "d3";
+import { select, geoMercator, geoPath, path } from "d3";
 import { feature, merge, mesh } from "topojson-client";
 import { caliData } from "../data/caliData";
 import { mexicoOutline } from "../data/mexicoOutline";
@@ -22,7 +22,8 @@ const getMapSelections = () => {
     usStatesPath: select("#us-states"),
     mexGroup: select("#mexico-group"),
     caliRiversGroup: select("#cali-rivers"),
-    l4Group: select("#l4-group"),
+    l4Group: select("#l4-group-polygons"),
+    l4GroupText: select("#l4-group-text"),
     l3Group: select("#l3-group"),
     stateMapOutlineSolid: select("#state-outline-solid"),
     stateMapOutlineBlur: select("#map-outline-blur"),
@@ -34,13 +35,15 @@ const statePolygons = feature(caliData, caliData.objects.convert);
 const riverPolygons = feature(caliRivers, caliRivers.objects.MajorRivers);
 const projection = geoMercator().fitExtent(
   [
-    [50, -100],
+    [20, 100],
     [window.innerWidth * 0.8, window.innerHeight * 2],
   ],
   statePolygons
 );
 
 const pathGenerator = geoPath().projection(projection);
+const l4PathCoords = [];
+
 const plotBaseMaps = (
   continentOutlineBlur,
   continentOutlineFill,
@@ -142,7 +145,34 @@ export const plotLevel4Polygons = (l4Group, polygons, pathGenerator) => {
     .attr("stroke", "black")
     .attr("stroke-width", 0.5)
     .attr("stroke-opacity", 0.6)
-    .attr("d", pathGenerator);
+    .attr("d", pathGenerator)
+    .each((d) => {
+      l4PathCoords[d.properties.OBJECTID] = pathGenerator.centroid(d);
+    });
+};
+
+const plotLevel4PolygonsText = (l4GroupText, polygons) => {
+  const textGroups = l4GroupText
+    .selectAll("g")
+    .data(polygons)
+    .join("g")
+    .attr(
+      "transform",
+      (d) =>
+        "translate(" +
+        l4PathCoords[d.properties.OBJECTID][0] +
+        ", " +
+        l4PathCoords[d.properties.OBJECTID][1] +
+        ")"
+    )
+    .attr("width", 20)
+    .attr("height", 20);
+
+  textGroups
+    .append("text")
+    .text((d) => d.properties.US_L4CODE)
+    .attr("font-size", "0.55rem")
+    .attr("x", -10);
 };
 
 const plotBlurredMapOutline = (mapOutlineBlur, pathGenerator) => {
@@ -196,6 +226,7 @@ export const drawMap = () => {
     mexGroup,
     stateMapOutlineBlur,
     l4Group,
+    l4GroupText,
     l3Group,
     stateMapOutlineSolid,
     caliRiversGroup,
@@ -212,6 +243,7 @@ export const drawMap = () => {
   );
   plotBlurredMapOutline(stateMapOutlineBlur, pathGenerator);
   plotLevel4Polygons(l4Group, statePolygons.features, pathGenerator);
+  plotLevel4PolygonsText(l4GroupText, statePolygons.features);
   plotLevel3PolygonOutlines(l3Group, pathGenerator);
   plotSolidMapOutline(stateMapOutlineSolid, pathGenerator);
 };

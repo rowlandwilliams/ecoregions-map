@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { drawMap } from "./utils/plot-utils";
+import { drawMap, homeMapDims } from "./utils/plot-utils";
 
 export const StateMap = () => {
   useEffect(() => {
@@ -7,7 +7,7 @@ export const StateMap = () => {
   }, []);
 
   return (
-    <svg width="100%" height={window.innerHeight * 2} id="map-svg">
+    <svg width="100%" height={homeMapDims[1]} id="map-svg">
       <g>
         <g>
           <path id="continent-outline-blur"></path>
@@ -16,7 +16,7 @@ export const StateMap = () => {
           <path id="us-states"></path>
           <path id="mexico-group"></path>
         </g>
-        <g id="state-map-group">
+        <g id="state-map-group" className="cursor-pointer">
           <g id="l4-group-polygons"></g>
           <g id="l4-group-text"></g>
           <g id="l3-group"></g>

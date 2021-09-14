@@ -1,4 +1,4 @@
-import { select, geoMercator, geoPath, path } from "d3";
+import { select, geoMercator, geoPath, polygonArea } from "d3";
 import { feature, merge, mesh } from "topojson-client";
 import { caliData } from "../data/caliData";
 import { mexicoOutline } from "../data/mexicoOutline";
@@ -9,7 +9,11 @@ import { l4Colors } from "./colors";
 import { l3Codes, l4Column } from "./utils";
 import { caliRivers } from "../data/caliRivers";
 import { store } from "../../../../index";
-import { setMouseCoords, setStateMapIsHovered } from "../../../../actions";
+import {
+  setMouseCoords,
+  setStateMapIsHovered,
+  setTooltipData,
+} from "../../../../actions";
 
 const mexicoGreen = "#e7ffe3";
 const outlineGrey = "#808080";
@@ -32,13 +36,18 @@ const getMapSelections = () => {
   };
 };
 
+export const homeMapDims = [window.innerWidth, window.innerHeight * 2];
+
 // define projections, state polygons and path generator
 const statePolygons = feature(caliData, caliData.objects.convert);
 const riverPolygons = feature(caliRivers, caliRivers.objects.MajorRivers);
+
+const padding = 50;
+
 const projection = geoMercator().fitExtent(
   [
-    [20, 100],
-    [window.innerWidth * 0.8, window.innerHeight * 2],
+    [padding / 2, padding],
+    [homeMapDims[0] * 0.8 - padding / 2, homeMapDims[1] - padding],
   ],
   statePolygons
 );
@@ -157,34 +166,42 @@ export const plotLevel4Polygons = (l4Group, polygons, pathGenerator) => {
     .attr("stroke-opacity", 0.6)
     .attr("d", pathGenerator)
     .each((d) => {
+      console.log(polygonArea(d));
       l4PathCoords[d.properties.OBJECTID] = pathGenerator.centroid(d);
     })
     .on("mousemove", (event, d) => {
-      store.dispatch(setMouseCoords([event.pageX, event.pageY]));
+      if (d.properties.US_L4CODE === "14f") console.log(d.properties);
+      store.dispatch(setTooltipData([event.pageX, event.pageY], d.properties));
     });
 };
 
+const minAreaForText = 25761156 * 5;
 const plotLevel4PolygonsText = (l4GroupText, polygons) => {
-  // const textGroups = l4GroupText
-  //   .selectAll("g")
-  //   .data(polygons)
-  //   .join("g")
-  //   .attr(
-  //     "transform",
-  //     (d) =>
-  //       "translate(" +
-  //       l4PathCoords[d.properties.OBJECTID][0] +
-  //       ", " +
-  //       l4PathCoords[d.properties.OBJECTID][1] +
-  //       ")"
-  //   )
-  //   .attr("width", 20)
-  //   .attr("height", 20);
-  // textGroups
-  //   .append("text")
-  //   .text((d) => d.properties.US_L4CODE)
-  //   .attr("font-size", "0.55rem")
-  //   .attr("x", -10);
+  const textGroups = l4GroupText
+    .selectAll("g")
+    .data(
+      polygons.filter(
+        (polygon) => polygon.properties.Shape_Area > minAreaForText
+      )
+    )
+    .join("g")
+    .attr(
+      "transform",
+      (d) =>
+        "translate(" +
+        l4PathCoords[d.properties.OBJECTID][0] +
+        ", " +
+        l4PathCoords[d.properties.OBJECTID][1] +
+        ")"
+    )
+    .attr("width", 20)
+    .attr("height", 20);
+
+  textGroups
+    .append("text")
+    .text((d) => d.properties.US_L4CODE)
+    .attr("font-size", "0.7rem")
+    .attr("x", -10);
 };
 
 const plotBlurredMapOutline = (mapOutlineBlur, pathGenerator) => {

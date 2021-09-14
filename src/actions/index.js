@@ -3,7 +3,8 @@ export const setStateMapIsHovered = (isStateMapHovered) => ({
   stateMapIsHovered: isStateMapHovered,
 });
 
-export const setMouseCoords = (coords) => ({
+export const setTooltipData = (coords, polygonData) => ({
   type: "CHANGE-MOUSE",
   mouseCoords: coords,
+  polygonData: polygonData,
 });

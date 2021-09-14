@@ -141,38 +141,39 @@ export const plotLevel4Polygons = (l4Group, polygons, pathGenerator) => {
         l4Colors.filter((color) => color.code === d.properties[l4Column])[0]
           .color
     )
-    .attr("fill-opacity", 0.7)
+    .attr("fill-opacity", 0.9)
     .attr("stroke", "black")
     .attr("stroke-width", 0.5)
     .attr("stroke-opacity", 0.6)
     .attr("d", pathGenerator)
     .each((d) => {
       l4PathCoords[d.properties.OBJECTID] = pathGenerator.centroid(d);
-    });
+    })
+    // .on("mouseover", (event, d) => console.log(d.properties));
 };
 
 const plotLevel4PolygonsText = (l4GroupText, polygons) => {
-  const textGroups = l4GroupText
-    .selectAll("g")
-    .data(polygons)
-    .join("g")
-    .attr(
-      "transform",
-      (d) =>
-        "translate(" +
-        l4PathCoords[d.properties.OBJECTID][0] +
-        ", " +
-        l4PathCoords[d.properties.OBJECTID][1] +
-        ")"
-    )
-    .attr("width", 20)
-    .attr("height", 20);
+  // const textGroups = l4GroupText
+  //   .selectAll("g")
+  //   .data(polygons)
+  //   .join("g")
+  //   .attr(
+  //     "transform",
+  //     (d) =>
+  //       "translate(" +
+  //       l4PathCoords[d.properties.OBJECTID][0] +
+  //       ", " +
+  //       l4PathCoords[d.properties.OBJECTID][1] +
+  //       ")"
+  //   )
+  //   .attr("width", 20)
+  //   .attr("height", 20);
 
-  textGroups
-    .append("text")
-    .text((d) => d.properties.US_L4CODE)
-    .attr("font-size", "0.55rem")
-    .attr("x", -10);
+  // textGroups
+  //   .append("text")
+  //   .text((d) => d.properties.US_L4CODE)
+  //   .attr("font-size", "0.55rem")
+  //   .attr("x", -10);
 };
 
 const plotBlurredMapOutline = (mapOutlineBlur, pathGenerator) => {

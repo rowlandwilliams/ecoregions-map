@@ -7,7 +7,7 @@ import { drawMap } from "./utils/plot-utils";
 export const StateMap = () => {
   useEffect(() => {
     drawMap();
-  });
+  }, []);
 
   const { stateMapIsHovered } = useSelector((state) => state);
   const dispatch = useDispatch();

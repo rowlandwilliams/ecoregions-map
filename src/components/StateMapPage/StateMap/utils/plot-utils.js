@@ -2,13 +2,22 @@ import { select, geoMercator, geoPath } from "d3";
 import { feature, merge, mesh } from "topojson-client";
 import { caliData } from "../data/caliData";
 import { mexicoOutline } from "../data/mexicoOutline";
-import { statesData } from "../data/statesData";
+import { usData } from "../data/usData";
+import { usMexico } from "../data/usMexico";
+import { usStatesInnerOutlines } from "../data/usStatesInnerOutlines";
 import { l4Colors } from "./colors";
 import { l3Codes, l4Column } from "./utils";
 
+const mexicoGreen = "#e7ffe3";
+const outlineGrey = "#808080";
+
 const getMapSelections = () => {
   return {
-    usGroup: select("#us-group"),
+    continentOutlineBlur: select("#continent-outline-blur"),
+    continentOutlineFill: select("#continent-outline-fill"),
+    continentOutline: select("#continent-outline"),
+    usOutlinePath: select("#us-outline"),
+    usStatesPath: select("#us-states"),
     mexGroup: select("#mexico-group"),
     l4Group: select("#l4-group"),
     l3Group: select("#l3-group"),
@@ -22,30 +31,72 @@ const statePolygons = feature(caliData, caliData.objects.convert);
 
 const projection = geoMercator().fitExtent(
   [
-    [50, -200],
+    [50, -100],
     [window.innerWidth * 0.8, window.innerHeight * 2],
   ],
   statePolygons
 );
-const pathGenerator = geoPath().projection(projection);
 
-const plotBaseMaps = (statesGroup, mexGroup) => {
-  statesGroup
-    .selectAll("path")
-    .data(statesData.features)
+const pathGenerator = geoPath().projection(projection);
+const plotBaseMaps = (
+  continentOutlineBlur,
+  continentOutlineFill,
+  continentOutline,
+  usStatesPath,
+  usOutlinePath,
+  mexGroup
+) => {
+  continentOutlineBlur
     .join("path")
-    .attr("fill", "white")
-    .attr("fill-opacity", 0.5)
+    .attr("d", pathGenerator(usMexico))
+    .attr("fill", "#FFFBEB")
     .attr("stroke", "black")
-    .attr("stroke-width", 0.5)
+    .attr("stroke-width", 20)
+    .attr("stroke-opacity", 0.1);
+
+  continentOutline
+    .join("path")
+    .attr("d", pathGenerator(usMexico))
+    .attr("fill", "none")
+    .attr("stroke", outlineGrey)
+    .attr("stroke-width", 1.5)
+    .attr("stroke-opacity", 0.6);
+
+  continentOutlineFill
+    .join("path")
+    .attr("d", pathGenerator(usMexico))
+    .attr("fill", "#FFFBEB")
+    .attr("stroke", "none");
+
+  usOutlinePath
+    .join("path")
+    .attr("fill", "none")
+    .attr("stroke", outlineGrey)
+    .attr("stroke-width", 1.5)
     .attr("stroke-opacity", 0.6)
-    .attr("d", pathGenerator);
+    .attr(
+      "d",
+      pathGenerator(
+        mesh(usData, usData.objects.states, function (a, b) {
+          return a !== b;
+        })
+      )
+    );
+
+  usStatesPath
+    .join("path")
+    .attr("fill", "none")
+    .attr("stroke", outlineGrey)
+    .attr("stroke-width", 0.5)
+    .attr("d", pathGenerator(usStatesInnerOutlines));
 
   mexGroup
     .join("path")
     .attr("d", pathGenerator(mexicoOutline))
-    .attr("fill", "transparent")
-    .style("stroke", "#333");
+    .attr("fill", mexicoGreen)
+    .attr("stroke", outlineGrey)
+    .attr("stroke-width", 1.5)
+    .attr("stroke-opacity", 0.6);
 };
 
 const plotSolidMapOutline = (mapOutlineSolid, pathGenerator) => {
@@ -125,7 +176,11 @@ const plotLevel3PolygonOutlines = (l3Group, pathGenerator) => {
 
 export const drawMap = () => {
   const {
-    usGroup,
+    continentOutlineBlur,
+    continentOutline,
+    continentOutlineFill,
+    usOutlinePath,
+    usStatesPath,
     mexGroup,
     stateMapOutlineBlur,
     l4Group,
@@ -133,7 +188,14 @@ export const drawMap = () => {
     stateMapOutlineSolid,
   } = getMapSelections();
 
-  plotBaseMaps(usGroup, mexGroup);
+  plotBaseMaps(
+    continentOutlineBlur,
+    continentOutlineFill,
+    continentOutline,
+    usStatesPath,
+    usOutlinePath,
+    mexGroup
+  );
   plotBlurredMapOutline(stateMapOutlineBlur, pathGenerator);
   plotLevel4Polygons(l4Group, statePolygons.features, pathGenerator);
   plotLevel3PolygonOutlines(l3Group, pathGenerator);

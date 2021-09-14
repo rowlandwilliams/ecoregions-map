@@ -1,9 +1,9 @@
-import { l3Regions } from "../StateMapPage/StateMap/utils/colors";
+import { l3Regions } from "../StateMap/utils/colors";
 import { MapKeyItem } from "./MapKeyItem/MapKeyItem";
 
 export const MapKey = () => {
   return (
-    <div className="absolute top-0 left-1/3 m-8 ml-32">
+    <div className="absolute top-0 left-1/3 pt-16 ml-32">
       <div className="text-5xl font-default-bold text-gray-800">
         The Eco-regions of California
       </div>

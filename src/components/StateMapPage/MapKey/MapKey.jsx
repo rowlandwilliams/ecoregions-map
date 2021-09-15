@@ -5,7 +5,7 @@ import { MapKeyItem } from "./MapKeyItem/MapKeyItem";
 export const MapKey = () => {
   return (
     <div
-      className="h-screen py-16 px-12 text-gray-300 "
+      className=" py-16 px-12 text-gray-300 "
       style={{ backgroundColor: stateCream }}
     >
       <div className="text-3xl font-default-bold ">

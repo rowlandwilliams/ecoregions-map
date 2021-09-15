@@ -5,8 +5,8 @@ import { MapKey } from "./MapKey/MapKey";
 export const StateMapPage = () => {
   return (
     <div className="relative font-default-regular">
+      <MapKey />
       <StateMap />
-      {/* <MapKey /> */}
       <StateMapTooltip />
     </div>
   );

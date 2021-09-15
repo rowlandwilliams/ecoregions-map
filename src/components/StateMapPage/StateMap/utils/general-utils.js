@@ -29,6 +29,7 @@ export const mexicoGreen = "#e7ffe3";
 export const outlineGrey = "#808080";
 export const riverBlue = "#11cff5";
 export const stateCream = "#394252";
+export const seaBlue = "#9fb6d3";
 
 export const minAreaForText = 25761156 * 5;
 

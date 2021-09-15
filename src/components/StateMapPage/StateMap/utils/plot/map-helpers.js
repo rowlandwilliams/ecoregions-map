@@ -14,6 +14,7 @@ import {
   minAreaForText,
   outlineGrey,
   riverBlue,
+  seaBlue,
   stateCream,
 } from "../general-utils";
 import { caliRivers } from "../../data/caliRivers";
@@ -85,7 +86,7 @@ export const plotBaseMaps = (
   usStatesPath
     .join("path")
     .attr("fill", "none")
-    .attr("stroke", outlineGrey)
+    .attr("stroke", seaBlue)
     .attr("stroke-width", 0.5)
     .attr("d", pathGenerator(usStatesInnerOutlines));
 
@@ -97,13 +98,13 @@ export const plotBaseMaps = (
     .attr("stroke-width", 1.5)
     .attr("stroke-opacity", 0.6);
 
-  caliRiversGroup
-    .selectAll("path")
-    .data(riverPolygons.features)
-    .join("path")
-    .attr("stroke", riverBlue)
-    .attr("stroke-width", 1)
-    .attr("d", pathGenerator);
+  // caliRiversGroup
+  //   .selectAll("path")
+  //   .data(riverPolygons.features)
+  //   .join("path")
+  //   .attr("stroke", riverBlue)
+  //   .attr("stroke-width", 1)
+  //   .attr("d", pathGenerator);
 };
 
 // plot outkine of US

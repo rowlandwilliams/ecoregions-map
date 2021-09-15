@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { drawMap, homeMapDims } from "./utils/plot-utils";
+import { homeMapDims } from "./utils/general-utils";
+import { drawMap } from "./utils/plot/drawMap";
 
 export const StateMap = () => {
   useEffect(() => {

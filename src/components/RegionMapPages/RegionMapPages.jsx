@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import { RegionMap } from "./RegionMap/RegionMap";
-import { l3Regions } from "../StateMapPage/StateMap/utils/colors";
+import { l3Regions } from "../StateMapPage/StateMap/utils/polygon-colors";
 
 export const RegionMapPages = () => {
   return (

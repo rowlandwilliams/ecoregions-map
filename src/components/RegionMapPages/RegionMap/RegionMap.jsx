@@ -2,8 +2,8 @@ import { geoMercator, geoPath } from "d3";
 import { useEffect } from "react";
 import { feature, merge } from "topojson-client";
 import { caliData } from "../../StateMapPage/StateMap/data/caliData";
+import { plotLevel4Polygons } from "../../StateMapPage/StateMap/utils/plot/map-helpers";
 import { getL3SvgSelections } from "./utils/plot-utils";
-import { plotLevel4Polygons } from "../../StateMapPage/StateMap/utils/plot-utils";
 
 const polygons = feature(caliData, caliData.objects.convert);
 
